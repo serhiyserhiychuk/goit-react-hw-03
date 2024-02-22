@@ -1,52 +1,30 @@
-import Describtion from "./components/Describtion/Describtion";
-import Options from "./components/Options/Options";
-import Feedback from "./components/Feedback/Feedback";
-import Notification from "./components/Notification/Notification";
-import { useState, useEffect } from "react";
+import ContactForm from "./components/ContactForm/ContactForm";
+import SearchBox from "./components/SearchBox/SearchBox";
+import ContactList from "./components/ContactList/ContactList";
+
+import { useState } from "react";
 
 const App = () => {
-  const [feedback, setFeedback] = useState(() => {
-    const savedFeedback = window.localStorage.getItem("feedback");
-    if (savedFeedback !== null) {
-      return JSON.parse(savedFeedback).feedback;
-    } else {
-      return {
-        good: 0,
-        neutral: 0,
-        bad: 0,
-      };
-    }
-  });
-  const updateFeedback = (feedbackType) => {
-    setFeedback({ ...feedback, [feedbackType]: feedback[feedbackType] + 1 });
-  };
+  const [contacts, setContacts] = useState([
+    { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+    { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+    { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+    { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+  ]);
 
-  useEffect(() => {
-    window.localStorage.setItem("feedback", JSON.stringify({ feedback }));
-  }, [feedback]);
-
-  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
-  const persentage = Math.round(
-    ((feedback.good + feedback.neutral) / totalFeedback) * 100
-  );
+  const [searchedContacts, setSearchedContacts] = useState("");
 
   return (
     <>
-      <Describtion />
-      <Options
-        updateFeedback={updateFeedback}
-        totalFeedback={totalFeedback}
-        setFeedback={setFeedback}
-      />
-      {totalFeedback ? (
-        <Feedback
-          feedback={feedback}
-          totalFeedback={totalFeedback}
-          persentage={persentage}
+      <div>
+        <h1>Phonebook</h1>
+        <ContactForm contacts={contacts} setContacts={setContacts} />
+        <SearchBox
+          searchedContacts={searchedContacts}
+          onChange={setSearchedContacts}
         />
-      ) : (
-        <Notification />
-      )}
+        <ContactList contacts={contacts} searchedContacts={searchedContacts} />
+      </div>
     </>
   );
 };
