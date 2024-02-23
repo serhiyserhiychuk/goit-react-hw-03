@@ -26,19 +26,27 @@ const App = () => {
 
   const [searchedContacts, setSearchedContacts] = useState("");
 
+  const deleteContact = (contact) => {
+    const newContacts = contacts.filter(
+      (stableContact) => stableContact.id !== contact.id
+    );
+    setContacts(newContacts);
+  };
+
+  const addContact = (contactToAdd) => {
+    setContacts([...contacts, contactToAdd]);
+  };
+
   return (
     <>
       <div>
         <h1>Phonebook</h1>
-        <ContactForm contacts={contacts} setContacts={setContacts} />
-        <SearchBox
-          searchedContacts={searchedContacts}
-          onChange={setSearchedContacts}
-        />
+        <ContactForm contacts={contacts} addContact={addContact} />
+        <SearchBox value={searchedContacts} onChange={setSearchedContacts} />
         <ContactList
           contacts={contacts}
           searchedContacts={searchedContacts}
-          setContacts={setContacts}
+          onDelete={deleteContact}
         />
       </div>
     </>

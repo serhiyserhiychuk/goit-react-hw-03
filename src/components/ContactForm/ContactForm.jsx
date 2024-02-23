@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useId } from "react";
 import css from "./ContactForm.module.css";
 
-export default function ContactForm({ contacts, setContacts }) {
+export default function ContactForm({ addContact }) {
   const ContactSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "Too Short!")
@@ -24,7 +24,7 @@ export default function ContactForm({ contacts, setContacts }) {
 
   const handleSubmit = (addedContacts, actions) => {
     addedContacts.id = nanoid();
-    setContacts([...contacts, addedContacts]);
+    addContact(addedContacts);
     actions.resetForm();
   };
 

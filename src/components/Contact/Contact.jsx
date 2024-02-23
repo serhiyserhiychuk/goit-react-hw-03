@@ -2,14 +2,7 @@ import css from "./Contact.module.css";
 import { FaUser } from "react-icons/fa6";
 import { FaPhone } from "react-icons/fa6";
 
-export default function Contact({ contact, contacts, setContacts }) {
-  const handleDelete = () => {
-    const newContacts = contacts.filter(
-      (stableContact) => stableContact.id !== contact.id
-    );
-    setContacts(newContacts);
-  };
-
+export default function Contact({ contact, onDelete }) {
   return (
     <div className={css.container}>
       <ul className={css.list}>
@@ -25,7 +18,7 @@ export default function Contact({ contact, contacts, setContacts }) {
           </p>
         </li>
       </ul>
-      <button className={css.button} onClick={handleDelete}>
+      <button className={css.button} onClick={() => onDelete(contact)}>
         Delete
       </button>
     </div>

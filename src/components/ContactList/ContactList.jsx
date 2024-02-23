@@ -1,11 +1,7 @@
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
 
-export default function ContactList({
-  contacts,
-  searchedContacts,
-  setContacts,
-}) {
+export default function ContactList({ contacts, searchedContacts, onDelete }) {
   const correctedContacts =
     searchedContacts.charAt(0).toUpperCase() +
     searchedContacts.slice(1).toLowerCase();
@@ -15,12 +11,7 @@ export default function ContactList({
   return (
     <ul className={css.list}>
       {renderContacts.map((contact) => (
-        <Contact
-          contact={contact}
-          contacts={contacts}
-          key={contact.id}
-          setContacts={setContacts}
-        />
+        <Contact contact={contact} key={contact.id} onDelete={onDelete} />
       ))}
     </ul>
   );
