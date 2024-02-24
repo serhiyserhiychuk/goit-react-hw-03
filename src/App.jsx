@@ -26,9 +26,16 @@ const App = () => {
 
   const [searchedContacts, setSearchedContacts] = useState("");
 
-  const deleteContact = (contact) => {
+  const correctedContacts =
+    searchedContacts.charAt(0).toUpperCase() +
+    searchedContacts.slice(1).toLowerCase();
+  const renderContacts = contacts.filter((contact) =>
+    contact.name.includes(correctedContacts)
+  );
+
+  const deleteContact = (id) => {
     const newContacts = contacts.filter(
-      (stableContact) => stableContact.id !== contact.id
+      (stableContact) => stableContact.id !== id
     );
     setContacts(newContacts);
   };
@@ -43,11 +50,7 @@ const App = () => {
         <h1>Phonebook</h1>
         <ContactForm contacts={contacts} addContact={addContact} />
         <SearchBox value={searchedContacts} onChange={setSearchedContacts} />
-        <ContactList
-          contacts={contacts}
-          searchedContacts={searchedContacts}
-          onDelete={deleteContact}
-        />
+        <ContactList renderContacts={renderContacts} onDelete={deleteContact} />
       </div>
     </>
   );
